@@ -27,8 +27,9 @@ def add_bg_from_local(image_path):
         """,
         unsafe_allow_html=True
     )
+
 # Add background from local file
-add_bg_from_local("images/ev_dashboard_background.webp")
+add_bg_from_local("images/vaprojet/ev_dashboard_background.webp")
 
 # Load Combined State-Level Dataset
 @st.cache_data
@@ -47,14 +48,18 @@ page = st.sidebar.radio("Go to", ["Overview", "State-Level Insights", "Geospatia
 if page == "Overview":
     st.title("Electric Vehicles and Charging Stations Overview")
 
-    st.metric("Total States Analyzed", len(df))
-    st.metric("Total Unique EV Makes", ev_population['Make'].nunique())
-    st.metric("Total Unique EV Models", ev_population['Model'].nunique())
+    # Clean EV population data: drop missing and remove 2024
+    ev_population = ev_population.dropna(subset=['Make', 'Model', 'Model Year', 'Electric Range'])
+    ev_population_filtered = ev_population[ev_population['Model Year'] < 2024]
 
-    selected_companies = st.multiselect("Select EV Companies", ev_population['Make'].dropna().unique())
+    st.metric("Total States Analyzed", len(df))
+    st.metric("Total Unique EV Makes", ev_population_filtered['Make'].nunique())
+    st.metric("Total Unique EV Models", ev_population_filtered['Model'].nunique())
+
+    selected_companies = st.multiselect("Select EV Companies", ev_population_filtered['Make'].dropna().unique())
 
     if selected_companies:
-        filtered_data = ev_population[ev_population['Make'].isin(selected_companies)]
+        filtered_data = ev_population_filtered[ev_population_filtered['Make'].isin(selected_companies)]
         st.subheader(f"EV Growth Over Years for {', '.join(selected_companies)}")
         growth_data = filtered_data.groupby(['Model Year', 'Make']).size().reset_index(name='EV Count')
         fig_company_growth = px.line(growth_data, x='Model Year', y='EV Count', color='Make', markers=True,
@@ -62,17 +67,19 @@ if page == "Overview":
         st.plotly_chart(fig_company_growth)
 
     st.subheader("Mileage Comparison Between Companies")
-    mileage_data = ev_population.groupby('Make')['Electric Range'].mean().reset_index().dropna()
+    mileage_data = ev_population_filtered.groupby('Make')['Electric Range'].mean().reset_index().dropna()
     fig_mileage = px.bar(mileage_data, x='Make', y='Electric Range', color='Make', title='Average Range by Company')
     st.plotly_chart(fig_mileage)
 
     st.subheader("All EVs vs Yearly Growth")
-    total_growth_data = ev_population.groupby('Model Year').size().reset_index(name='Total EV Count')
+    total_growth_data = ev_population_filtered.groupby('Model Year').size().reset_index(name='Total EV Count')
     fig_total_growth = px.line(total_growth_data, x='Model Year', y='Total EV Count', markers=True, title='Total EV Growth Over Years')
     st.plotly_chart(fig_total_growth)
+    st.caption("🔍 2024 data excluded from growth charts due to incomplete or ongoing reporting.")
 
     st.subheader("📥 Download Full Dataset")
     st.download_button("Download Combined State Dataset", data=df.to_csv(index=False), file_name='EV_Stations_Combined_State_Level.csv')
+
 
 # -------------------- State-Level Insights --------------------
 elif page == "State-Level Insights":
@@ -126,6 +133,7 @@ elif page == "State-Level Insights":
     )
 
     st.plotly_chart(infra_pie_fig)
+
     st.subheader("Comparison of EV Companies Based on Average Electric Range")
 
     # Group data by EV companies (Make) and calculate metrics
@@ -202,10 +210,9 @@ EV population dataset columns: {', '.join(ev_population.columns)}
 Charging station dataset columns: {', '.join(df.columns)}
 User question: {user_input}"""
 
-        
-    try:
-        answer = ask_groq_llama(prompt)
-        st.markdown("<h3 style='color: black;'>Answer</h3>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: black;'>{answer}</p>", unsafe_allow_html=True)
-    except Exception as e:
-        st.error(f"An error occurred: {e}") 
+        try:
+            answer = ask_groq_llama(prompt)
+            st.markdown("### Answer")
+            st.write(answer)
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
