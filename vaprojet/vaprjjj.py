@@ -29,7 +29,7 @@ def add_bg_from_local(image_path):
     )
 
 # Add background from local file
-add_bg_from_local("images/vaprojet/ev_dashboard_background.webp")
+add_bg_from_local("images/ev_dashboard_background.webp")
 
 # Load Combined State-Level Dataset
 @st.cache_data
