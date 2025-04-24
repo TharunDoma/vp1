@@ -204,6 +204,7 @@ elif page == "LLM Insights":
 
     user_input = st.text_input("Ask something about EV data:")
 
+    prompt = ""
     if user_input:
         prompt = f"""You are an expert in electric vehicle data analysis.
 EV population dataset columns: {', '.join(ev_population.columns)}
