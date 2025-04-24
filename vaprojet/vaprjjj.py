@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 import plotly.express as px
 import base64
-import requests  # 👈 Added for Groq API calls
+import requests  
 
 # ---------- Add background CSS ----------
 def add_bg_from_local(image_path):
@@ -33,8 +33,8 @@ add_bg_from_local("images/ev_dashboard_background.webp")
 # Load Combined State-Level Dataset
 @st.cache_data
 def load_data():
-    df = pd.read_csv("C:/Users/tharu/Downloads/vp1/vaprojet/EV_Stations_Combined_State_Level.csv")
-    ev_population = pd.read_csv("C:/Users/tharu/Downloads/vp1/vaprojet/Electric_Vehicle_Population_Data.csv")
+    df = pd.read_csv("data/EV_Stations_Combined_State_Level.csv")
+    ev_population = pd.read_csv("data/vaprojet/Electric_Vehicle_Population_Data.csv")
     return df, ev_population
 
 df, ev_population = load_data()
@@ -148,7 +148,7 @@ elif page == "State-Level Insights":
 elif page == "Geospatial Analysis":
     st.title("Geospatial Distribution of Charging Stations")
 
-    ev_stations = pd.read_csv("C:/Users/tharu/Downloads/vp1/vaprojet/EV_stations.csv")
+    ev_stations = pd.read_csv("data/EV_stations.csv")
     map_data = ev_stations[['Latitude', 'Longitude', 'EV Level1 EVSE Num', 'EV Level2 EVSE Num', 'EV DC Fast Count']].dropna(subset=['Latitude', 'Longitude'])
 
     def station_type(row):
