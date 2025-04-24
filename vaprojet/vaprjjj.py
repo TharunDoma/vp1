@@ -28,7 +28,7 @@ def add_bg_from_local(image_path):
         unsafe_allow_html=True
     )
 # Add background from local file
-add_bg_from_local("C:/Users/tharu/Downloads/vp1/vaprojet/ev_dashboard_background.webp")
+add_bg_from_local("images/ev_dashboard_background.webp")
 
 # Load Combined State-Level Dataset
 @st.cache_data
