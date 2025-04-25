@@ -34,7 +34,7 @@ def add_bg_from_local(image_path):
 @st.cache_data
 def load_data():
     df = pd.read_csv("data/EV_Stations_Combined_State_Level.csv")
-    ev_population = pd.read_csv("data/Electric_Vehicle_Population_Data.csv")
+    ev_population = pd.read_csv("data/Electric_Vehicles_Population_Data.csv")
     return df, ev_population
 
 df, ev_population = load_data()
