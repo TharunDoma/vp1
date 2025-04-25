@@ -179,7 +179,7 @@ elif page == "Geospatial Analysis":
     st.subheader("📥 Download Charging Stations Data")
     st.download_button("Download Charging Stations Data", data=ev_stations.to_csv(index=False), file_name='EV_Stations.csv')
 
-# -------------------- LLM Insights Page using Groq --------------------
+# -------------------- LLM Insights Page using Groq -------------------
 elif page == "LLM Insights":
     st.title("Ask the EV Assistant")
     add_bg_from_local("images/tookki.gif")
