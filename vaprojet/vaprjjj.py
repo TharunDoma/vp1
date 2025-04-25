@@ -84,7 +84,7 @@ if page == "Overview":
 # -------------------- State-Level Insights --------------------
 elif page == "State-Level Insights":
     st.title("State-Level Analysis")
-    add_bg_from_local("images/Electric-Vehicle-Charging-GIF.gif")
+    add_bg_from_local("images/tookki.gif")
     state_full_names = {
         'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
         'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia',
@@ -183,6 +183,7 @@ elif page == "Geospatial Analysis":
 # -------------------- LLM Insights Page using Groq --------------------
 elif page == "LLM Insights":
     st.title("Ask the EV Assistant")
+    add_bg_from_local("images/benz.webp")
 
     def ask_groq_llama(prompt):
         headers = {
