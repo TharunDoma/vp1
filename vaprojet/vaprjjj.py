@@ -51,7 +51,7 @@ if page == "Overview":
     ev_population = ev_population.dropna(subset=['Make', 'Model', 'Model Year', 'Electric Range'])
     ev_population_filtered = ev_population[ev_population['Model Year'] < 2024]
 
-    st.metric("Total States Analyzed", len(df))
+    st.metric("Total States Analyzed", df['State'].nunique())
     st.metric("Total Unique EV Makes", ev_population_filtered['Make'].nunique())
     st.metric("Total Unique EV Models", ev_population_filtered['Model'].nunique())
 
