@@ -13,7 +13,7 @@ def add_bg_from_local(image_path):
         f"""
         <style>
         .stApp {{
-            background-image: url("data:image/png;base64,{encoded_string}");
+            background-image: url("data:image/gif;base64,{encoded_string}");
             background-attachment: fixed;
             background-size: cover;
             background-position: center;
@@ -29,7 +29,7 @@ def add_bg_from_local(image_path):
     )
 
 # Add background from local file
-add_bg_from_local("images/ev_dashboard_background.webp")
+
 
 # Load Combined State-Level Dataset
 @st.cache_data
@@ -47,7 +47,7 @@ page = st.sidebar.radio("Go to", ["Overview", "State-Level Insights", "Geospatia
 # -------------------- Overview Page --------------------
 if page == "Overview":
     st.title("Electric Vehicles and Charging Stations Overview")
-
+    add_bg_from_local("images/LIGHTNING_G4.gif")
     # Clean EV population data: drop missing and remove 2024
     ev_population = ev_population.dropna(subset=['Make', 'Model', 'Model Year', 'Electric Range'])
     ev_population_filtered = ev_population[ev_population['Model Year'] < 2024]
@@ -84,7 +84,7 @@ if page == "Overview":
 # -------------------- State-Level Insights --------------------
 elif page == "State-Level Insights":
     st.title("State-Level Analysis")
-
+    add_bg_from_local("images/Electric-Vehicle-Charging-GIF.gif")
     state_full_names = {
         'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
         'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia',
@@ -155,7 +155,7 @@ elif page == "State-Level Insights":
 # -------------------- Geospatial Analysis --------------------
 elif page == "Geospatial Analysis":
     st.title("Geospatial Distribution of Charging Stations")
-
+    add_bg_from_local("images/evvabgrnd.png")
     ev_stations = pd.read_csv("data/EV_stations.csv")
     map_data = ev_stations[['Latitude', 'Longitude', 'EV Level1 EVSE Num', 'EV Level2 EVSE Num', 'EV DC Fast Count']].dropna(subset=['Latitude', 'Longitude'])
 
@@ -203,8 +203,7 @@ elif page == "LLM Insights":
         return response.json()["choices"][0]["message"]["content"]
 
     user_input = st.text_input("Ask something about EV data:")
-
-    prompt = ""
+    prompt=""
     if user_input:
         prompt = f"""You are an expert in electric vehicle data analysis.
 EV population dataset columns: {', '.join(ev_population.columns)}
