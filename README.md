@@ -2,7 +2,7 @@
 
 ## App Deployment URL
 
-https://gp84ldgpxiqzz92ttodcpw.streamlit.app/
+https://gp84ldgpxiqzz92ttodcpw.streamlit.app
 
 ## Local Setup Instructions
 
